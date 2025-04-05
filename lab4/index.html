@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        header, footer {
+            background: #ccc;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        nav {
+            width: 20%;
+            background: #777;
+            padding: 30px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7%;
+        }
+        article {
+            flex: 1;
+            background: white;
+            padding: 20px;
+        }
+        aside {
+            width: 20%;
+            background: #777;
+            padding: 20px;
+            color: white;
+        }
+        fieldset{
+            padding: 3%;
+            margin-bottom: 15px;
+        }   
+        article fieldset{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        article fieldset:last-of-type {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 15px;
+        }
+        legend{
+            text-align: center;
+        }
+        fieldset button{
+            width: 15%;
+            height: 30px;
+            background-color: #a0a0a0;
+            color: white;
+            border-radius: 5px;
+        }
+        nav button{
+            width: 40%;
+            height: 30px;
+        }
+        .cropped-image {
+            width: 70%;
+            height: 200px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            object-position: center 30%;
+        }
+        .hidden {
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="phone.jpg" alt="Выставка телефонов" class="cropped-image">
+    </header>
+    <div class="container">
+        <nav>
+            <button type="button" id="btn-home">Главная</button>
+            <button type="button" id="btn-results">Результаты</button>
+        </nav>
+        <article>
+            <div id="form-container">
+                <fieldset>
+                    <legend>Информация о посещении</legend>
+                    <div>
+                        <label for="name">Ваше имя:</label>
+                        <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+                    </div>
+
+                    <div>
+                        <label for="week">Неделя посещения:</label>
+                        <input type="week" id="week" name="week">
+                    </div>
+
+                    <div>
+                        <label for="checkbox">VIP пропуск:</label>
+                        <input type="checkbox" id="checkbox" name="checkbox" value="no">
+                    </div>
+
+                    <div>
+                        <label for="list">Место посещения:</label>
+                        <select id="list" name="list">
+                            <option value="value1">ТРЦ "Palazzo"</option>
+                            <option value="value2">Falcon Club</option>
+                            <option value="value3">Grand Hotel</option>
+                            <option value="value4">ул. Одицнова 3/2</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Ваш пол:</label>
+                        <input type="radio" name="gender" value="male">Мужской
+                        <input type="radio" name="gender" value="female">Женский
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Личные впечатления</legend>
+                    <div>
+                        <label>Удовлетворенность:</label>
+                        <input type="range" id="range" name="range" min="0" max="10" step="1" value="5">
+                        <span id="range-value">5</span>
+                    </div>
+
+                    <div>
+                        <label>Любимый цвет смартфона:</label>
+                        <input type="color" name="color" value="#ff0000">  
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <button type="button" id="submit-btn">Отправить</button>
+                    <button type="button" id="reset-btn">Сброс</button>
+                </fieldset>
+            </div>
+            <div id="results-container" class="hidden">
+                <h2>Результаты</h2>
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Неделя посещения</th>
+                            <th>VIP</th>
+                            <th>Место</th>
+                            <th>Пол</th>
+                            <th>Удовлетворенность</th>
+                            <th>Цвет смартфона</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        <aside></aside>
+    </div>
+    <footer>Всем привет</footer>
+
+    <script>
+        document.getElementById("range").addEventListener("input", function() {
+            document.getElementById("range-value").textContent = this.value;
+        });
+
+        document.getElementById("btn-results").addEventListener("click", function() {
+            document.getElementById("form-container").classList.add("hidden");
+            document.getElementById("results-container").classList.remove("hidden");
+        });
+
+        document.getElementById("btn-home").addEventListener("click", function() {
+            document.getElementById("form-container").classList.remove("hidden");
+            document.getElementById("results-container").classList.add("hidden");
+        });
+
+        document.getElementById("submit-btn").addEventListener("click", function() {
+            const tableBody = document.querySelector("#results-table tbody");
+            const newRow = document.createElement("tr");
+            const inputs = document.querySelectorAll("#form-container input, #form-container select");
+            let isValid = true;
+
+            inputs.forEach(input =>{
+                if ((input.type !== "checkbox" && input.type !== "color") && input.value.trim() === "") {
+                    isValid = false;
+                    input.style.border = "1.5чpx solid red";
+                    input.style.borderRadius = "3px";
+                }
+                else{
+                    input.style.border = "";
+                }
+            })
+
+            if (!isValid){
+                alert("Пожалуйста, заполните все поля формы.");
+                return;
+            }
+
+            newRow.innerHTML = `
+                <td>${document.getElementById("name").value || "Не указано"}</td>
+                <td>${document.getElementById("week").value || "Не выбрано"}</td>
+                <td>${document.getElementById("checkbox").checked ? "Да" : "Нет"}</td>
+                <td>${document.getElementById("list").options[document.getElementById("list").selectedIndex].text}</td>
+                <td>${document.querySelector('input[name="gender"]:checked')?.value || "Не указан"}</td>
+                <td>${document.getElementById("range").value}</td>
+                <td>${document.querySelector('input[name="color"]').value}</td>
+            `;
+
+            tableBody.appendChild(newRow);
+        });
+
+        document.getElementById("reset-btn").addEventListener("click", function(){
+            document.getElementById("name").value = "";
+            document.getElementById("week").value = "";
+    
+            // Снимаем чекбокс
+            document.getElementById("checkbox").checked = false;
+            
+            // Сбрасываем select на первый вариант
+            document.getElementById("list").selectedIndex = 0;
+
+            // Снимаем выбор радиокнопок (муж/жен)
+            document.querySelectorAll('input[name="gender"]').forEach(radio => radio.checked = false);
+
+            // Сбрасываем слайдер и обновляем отображаемое значение
+            document.getElementById("range").value = 5;
+            document.getElementById("range-value").textContent = "5";
+
+            // Сбрасываем выбор цвета
+            document.querySelector('input[name="color"]').value = "#ff0000";
+        })
+
+    </script>
+</body>
+</html>
