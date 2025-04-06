@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фастфуд</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+            background-color:lightcoral;
+            width: 260px;
+        }
+        .merged {  
+            background-color: orange;
+        }
+        .bold-border {
+            border: 7px solid black;
+        }
+        .half-bold-border {
+            border-top: 7px solid black;
+            border-left: 7px solid black;
+            border-right: 7px solid black;
+        }
+        .not-centered {
+            vertical-align: top;
+            text-align: left    ;
+        }
+        .dashed-list
+        {
+            list-style: none;
+            padding-left: 0px;
+            margin-left: 0px;
+            text-align: left;
+        }
+        .dashed-list li::before {
+            content: "-";
+        }
+        .text1 {
+            font-style: italic;
+            color: #1700c7;
+            text-decoration: underline;
+        }
+        .text2 {
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .text3 {
+            font-size:larger;
+            color: blueviolet;
+            font-stretch: expanded;
+        }
+        .text4 {
+            font-stretch: condensed;
+            color: rgb(236, 192, 192);
+        }
+        .text5 {
+            font-family: Impact, fantasy;
+            color:brown;
+        }
+        ol, ul {
+        margin: 0;
+        padding-left: 20px; /* уменьшает отступ */
+        text-align: left;
+        }
+        ol.roman {
+            list-style-type: upper-roman;
+        }
+        ol.roman ol{
+            list-style-type: upper-alpha;
+        }
+        ol.roman ol ol{
+            list-style-type: decimal;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td rowspan="3" class="half-bold-border not-centered">
+                <img src="https://r-menu.ru/images/menu/kartofel-fri-malyy.png" width="200px" height="200px" alt="Картофель фри фото">
+                Рецепт бургера
+                <ol>
+                    <li>Состав
+                        <ol>
+                            <li>Булочки</li>
+                            <li>Фарш</li>
+                            <li>Сыр</li>
+                            <li>Помидор</li>
+                            <li>Огурец</li>
+                            <li>Кетчуп</li>
+                        </ol>
+                    </li>
+                    <li>Типы
+                        <ul style="list-style-type: disc;">
+                            <li>Бургер классический</li>
+                            <li>Классический американский</li>
+                            <li>Чизбургер</li>
+                        </ul>
+                    </li>
+                </ol>
+
+            </td>
+            <th>Бургеры</th>
+            <td rowspan="4" class="bold-border">
+                <img src="https://masterpiecer-images.s3.yandex.net/bf7420e377ec11ee8d1f6a0259d7362a:upscaled" width="180px" height="370px" alt="бутерброд фото">
+            </td>
+            <th>Фастфуд вредный?</th>
+            <td rowspan="3" class="not-centered">
+                <img src="https://img.freepik.com/premium-photo/flying-hamburger-quartering-with-separate-condiments-explosion-flavors-colors-created-with-generative-ai-technology_27525-19792.jpg" width="200px" height="200px" alt="гамбургер">
+            </td>
+            <th>Картошка фри</th>
+        </tr>
+        <tr>
+            <td class="text2">
+                <p>Бургеры оказали огромное влияние на ресторанный бизнес. 
+                    Они привнесли в него концепцию быстрого обслуживания, 
+                    которая стала основой функционирования сетей фаст-фуда.</p>
+            </td>
+            <td class="text5" rowspan="2">
+                Вред фастфуда
+                <ul class="dashed-list">
+                    <li>Лишний вес</li>
+                    <li>Проблемы с почками</li>
+                    <li>Атеросклероз</li>
+                    <li>Повышение холестерина</li>
+                    <li>Гипертония</li>
+                </ul>
+                <p>Частое употребление большого количества углеводов 
+                    может привести к повторяющимся скачкам сахара в крови. 
+                    Со временем эти всплески инсулина могут вызвать 
+                    нарушение нормальной инсулиновой реакции вашего организма.</p>
+            </td>
+            <td class="text4">
+                <p>Арсений Снитко мечтал открыть бизнес и открыл фастфуд "Вкусняшка". 
+                    Сначала клиентов было мало, но акция 
+                    "Купи один — получи второй" привлекла их.
+
+                    Специальный "Бургер с сюрпризом" стал хитом. 
+                    Через год "Вкусняшка" стала любимым местом горожан. 
+                    Арсений понял, что фастфуд — это не только еда, но и общение.</p>
+                </td>
+        </tr>
+        <tr>
+            <td class="text3">
+                <p>Само слово «гамбургер» происходит от названия 
+                    второго по величине города Германии — Гамбурга. 
+                    По одной из версий, именно оттуда вместе с 
+                    немецкими иммигрантами рецепт попал в Америку. 
+                    В то время гамбургер представлял собой кусок 
+                    жареной свинины в хлебе.</p>
+            </td>
+            <td class="not-centered">
+                Картофель фри
+                <ol>
+                    <li>Состав
+                        <ol>
+                            <li>Картофель</li>
+                            <li>Сметана</li>
+                            <li>Томатная паста</li>
+                            <li>Чеснок</li>
+                            <li>Укроп</li>
+                            <li>Соль</li>
+                        </ol>
+                    </li>
+                    <li>Типы
+                        <ul style="list-style-type: disc;">
+                            <li>В обсыпке</li>
+                            <li>В кастрюле</li>
+                            <li>В духовке</li>
+                        </ul>
+                    </li>
+                </ol></td>
+        </tr>
+        <tr>
+            <td colspan="2">Список
+                <ol class="roman">
+                    <li>Завтрак</li>
+                        <ol>
+                            <li>Первый стол
+                                <ol>
+                                    <li>Шаурма</li>
+                                    <li>Бургер</li>
+                                </ol>
+                            </li>
+                            <li>Второй стол</li>
+                                <ol>
+                                    <li>Лапша</li>
+                                    <li>Суши</li>
+                                </ol>
+                        </ol>
+                    <li>Обед</li>
+                        <ol>
+                            <li>Первый стол
+                                <ol>
+                                    <li>Яйца</li>
+                                    <li>Панкейки</li>
+                                </ol>
+                            </li>
+                            <li>Второй стол
+                                <ol>
+                                    <li>Хот дог</li>
+                                    <li>Рамен</li>
+                                </ol>
+                            </li>
+                        </ol>
+                </ol>
+            </td>
+            <td class="text1" colspan="3" class="merged">
+                <p>Обычай обжаривать ломтики овощей в 
+                    кипящем жире пришёл из Франции. Овощи, 
+                    в том числе и картофель, там обжаривали 
+                    во фритюре, вот от него-то и произошло их 
+                    название «фри». Фритюр (friture) переводится 
+                    с французского как «жаренье, топлёное масло или жир». </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
