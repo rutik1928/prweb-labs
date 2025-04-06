@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Макет страницы</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            background-color: lavenderblush;
+            border: 1.5px solid black;
+            outline: none;
+        }
+
+        body {
+            display: grid;
+            grid-template-areas:
+                "header header header"
+                "nav section aside"
+                "footer footer footer";
+            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            gap: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        header, nav, section, aside, footer {
+            background: #666;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        header { grid-area: header; }
+        nav { grid-area: nav; }
+        section { grid-area: section; display: flex; flex-direction: column; gap: 10px; }
+        aside { grid-area: aside; }
+        footer { grid-area: footer; }
+        
+        .article {
+            background: #888888;
+            padding: 15px;
+            border-radius: 5px;
+            height: 60%;
+        }   
+        .content-header{
+            height: 25%;
+        }
+        .content-footer{
+            height: 15%;
+        }
+        .form-group {
+            text-align: left;
+        }
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            align-items: center;
+        }
+        .button-group button {
+            width: 50%;
+            max-width: 200px;
+            padding: 10px;
+            text-align: center;
+        }
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 300px;
+            max-width: 500px;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <header>ФОРМА</header>
+    <nav>ФОРМА</nav>
+    <section>
+        <div class="article content-header"></div>
+
+        <div class="article">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+            </div>
+    
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Введите ваш email">
+            </div>
+    
+            <div class="form-group">
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Введите ваш номер">
+            </div>
+            <div class="form-group">
+                <label for="fontsize">Размер шрифта:</label>
+                <select id="fontsize" name="fontsize">
+                    <option value="12px">12px</option>
+                    <option value="14px">14px</option>
+                    <option value="16px" selected>16px</option>
+                    <option value="18px">18px</option>
+                    <option value="20px">20px</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="color">Цвет текста:</label>
+                <select id="color" name="color">
+                    <option value="black">Черный</option>
+                    <option value="red">Красный</option>
+                    <option value="blue">Синий</option>
+                    <option value="green">Зеленый</option>
+                    <option value="orange">Оранжевый</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="article content-footer">
+            <button type="submit">Отправить</button>
+        </div>
+    </section>
+    <aside style="flex-wrap: wrap;">
+        
+
+        <div class="button-group">
+            <button type="button">Кнопка 1</button>
+            <button type="button">Кнопка 2</button>
+            <button type="button">Кнопка 3</button>
+        </div>
+
+    </aside>
+    <footer>ФОРМА</footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <ol id="modal-list"></ol>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        let inputs = document.querySelectorAll("input"); // Получаем все input-поля
+        let firstButton = document.querySelector(".button-group button:first-child");
+        let secondButton = document.querySelector(".button-group button:nth-child(2)");
+        let thirdButton = document.querySelector(".button-group button:nth-child(3)");
+        let headerContainer = document.querySelector(".content-header");
+
+        let modal = document.getElementById("modal"); // Само модальное окно
+        let modalList = document.getElementById("modal-list"); // Список в окне
+        let closeButton = document.querySelector(".close"); // Кнопка закрытия
+
+        let formGroup = document.querySelector("section .article:nth-child(2)"); // Контейнер для полей
+
+        inputs.forEach((input, index) => {
+            input.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") { // Проверяем, нажата ли клавиша Enter
+                    event.preventDefault(); // Отменяем стандартное поведение (например, отправку формы)
+
+                    let nextInput = inputs[index + 1]; // Берем следующее поле
+                    if (nextInput) {
+                        nextInput.focus(); // Переключаем фокус
+                    }
+                }
+            });
+        });
+
+        firstButton.addEventListener("click", function(){
+            inputs.forEach(input => {
+                input.value = "";
+                input.style.width = "80%";
+            })
+
+            let oldMessage = document.getElementById("header-message");
+            if (oldMessage) {
+                oldMessage.remove();
+            }
+
+            let message = document.createElement("p");
+            message.id = "header-message"; 
+            message.textContent = "Пожалуйста, заполните форму."; 
+            message.style.color = "yellow"; 
+            message.style.fontSize = "20px"; 
+            message.style.fontWeight = "bold"; 
+            message.style.marginTop = "10px";
+            message.style.textAlign = "center"; // Центрируем текст
+
+            // Добавляем сообщение внутрь div-контейнера перед header
+            headerContainer.prepend(message);
+        })
+
+        secondButton.addEventListener("click", function () {
+            modalList.innerHTML = ""; // Очищаем старый список
+
+            let fontSize = document.getElementById("fontsize").value;
+            let color = document.getElementById("color").value;
+
+            let inputs = document.querySelectorAll(".article input");
+
+            inputs.forEach((input, index) => {
+                let fieldValue = input.value || "Не указано"; // Если поле пустое — пишем "Не указано"
+                let fieldLabel = input.previousElementSibling ? input.previousElementSibling.textContent : `Поле ${index + 1}`;
+
+                let li = document.createElement("li");
+                li.textContent = `${fieldLabel} ${fieldValue}`;
+                li.style.fontSize = fontSize; // Применяем размер шрифта
+                li.style.color = color; // Применяем цвет текста
+
+                modalList.appendChild(li);
+            });
+
+            modal.style.display = "flex"; // Показываем модальное окно
+        });
+
+        // Закрывает модальное окно
+        closeButton.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Закрывает модальное окно при клике вне контента
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        thirdButton.addEventListener("click", function(){
+            let newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("form-group");
+
+            let newLabel = document.createElement("label");
+            let inputNumber = document.querySelectorAll(".article input[type='text']").length + 1;
+            newLabel.textContent = `Доп. поле ${inputNumber}:`;
+
+            let newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = `extra_field_${inputNumber}`;
+            newInput.placeholder = `Введите данные ${inputNumber}`;
+            newInput.style.width = "100%"; // Устанавливаем ширину
+
+            // Добавляем обработчик для перехода по Enter
+            newInput.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    let allInputs = document.querySelectorAll(".article input");
+                    let nextInput = allInputs[Array.from(allInputs).indexOf(newInput) + 1];
+                    if (nextInput) nextInput.focus();
+                }
+            });
+
+            // Добавляем новые элементы внутрь формы
+            newInputDiv.appendChild(newLabel);
+            newInputDiv.appendChild(newInput);
+            formGroup.appendChild(newInputDiv);
+        });
+        
+    });
+    </script>
+</body>
+</html>
