@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабораторная 1</title>
+  <style>
+    body {
+      position: relative;
+      height: 100vh;
+    }
+
+    .container {
+      position: relative;
+      margin-top: 50px;
+      height: 80%;
+    }
+
+    .block {
+      position: absolute;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .controls {
+      margin-bottom: 30px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <script>
+    class Block {
+        constructor(title, bgColor, width = '300px', left = '0px', top = '0px') {
+            this.div = document.createElement('div');
+            this.div.classList.add('block');
+            this.div.style.width = width;
+            this.div.style.height = '150px';
+            this.div.style.backgroundColor = bgColor;
+            this.div.style.left = left;
+            this.div.style.top = top;
+            this.div.textContent = title;
+        }
+
+        //добавление блока в body
+        addToBody() {
+            document.body.appendChild(this.div);
+        }
+
+        //добавление блока в контейнер
+        addToContainer() {
+            const container = document.querySelector('.container');
+            if (container) {
+                container.appendChild(this.div);
+            } else {
+                console.error('Контейнер не найден');
+            }
+        }
+    }
+
+    class ExtendedBlock extends Block {
+        constructor(title, bgColor, width, left, top) {
+            super(title, bgColor, width, left, top);
+        }
+
+        updateBlock(title, color, width, left, top) {
+            this.div.textContent = title || this.div.textContent;
+            this.div.style.backgroundColor = color || this.div.style.backgroundColor;
+            this.div.style.width = width || this.div.style.width;
+            this.div.style.left = left || this.div.style.left;
+            this.div.style.top = top || this.div.style.top;
+        }
+    }
+
+    const colors = ['red', 'green', 'blue', 'purple', 'darkcyan', 'maroon', 'crimson'];
+    const widths = ['300px', '400px', '500px', '600px'];
+    const headers = ['Заголовок 1', 'Заголовок 2', 'Заголовок 3', 'Заголовок 4'];
+    const blockOrder = [1, 2, 3, 4, 5, 6, 7];
+
+    let blocks = [];
+    
+    function addNewBlock() {
+      const order = document.getElementById('orderSelect').value;
+      const color = document.getElementById('colorSelect').value;
+      const width = document.getElementById('widthSelect').value;
+      const text = document.getElementById('headerSelect').value;
+      const left = document.getElementById('leftPosition').value + 'px';
+      const top = document.getElementById('topPosition').value + 'px';
+
+      const newBlock = new ExtendedBlock(text, color, width, left, top);
+      blocks.push(newBlock);
+      newBlock.addToContainer();  //Добавляем блок на страницу
+    }
+
+  </script>
+
+  <div class="controls">
+    <label>Номер блока:</label>
+    <select id="orderSelect">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">2</option>
+    </select>
+
+    <label for="colorSelect">Цвет блока:</label>
+    <select id="colorSelect">
+      <option value="red">Красный</option>
+      <option value="green">Зелёный</option>
+      <option value="blue">Синий</option>
+      <option value="purple">Фиолетовый</option>
+      <option value="darkcyan">Тёмно-циановый</option>
+      <option value="maroon">Тёмно-красный</option>
+      <option value="crimson">Кримсон</option>
+    </select>
+
+    <label for="widthSelect">Ширина блока:</label>
+    <select id="widthSelect">
+      <option value="300px">300px</option>
+      <option value="400px">400px</option>
+      <option value="500px">500px</option>
+      <option value="600px">600px</option>
+    </select>
+
+    <label for="headerSelect">Тип заголовка:</label>
+    <select id="headerSelect">
+      <option value="Заголовок 1">Заголовок 1</option>
+      <option value="Заголовок 2">Заголовок 2</option>
+      <option value="Заголовок 3">Заголовок 3</option>
+      <option value="Заголовок 4">Заголовок 4</option>
+    </select>
+
+    <label for="leftPosition">Позиция слева:</label>
+    <input type="number" id="leftPosition" value="50" style="width: 40px;">
+
+    <label for="topPosition">Позиция сверху:</label>
+    <input type="number" id="topPosition" value="50" style="width: 40px;">
+
+    <button onclick="addNewBlock()">Добавить новый блок</button>
+  </div>
+
+  <div class="container"></div>
+
+</body>
+</html>
