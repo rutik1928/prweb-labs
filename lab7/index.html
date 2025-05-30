@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Модальные окна — ES6</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h2>Создание модальных окон</h2>
+
+  <div class="controls">
+    <label>Размер:
+      <select id="sizeSelect">
+        <option value="200x100">200x100</option>
+        <option value="300x150">300x150</option>
+        <option value="400x200">400x200</option>
+        <option value="500x300">500x300</option>
+        <option value="600x400">600x400</option>
+      </select>
+    </label>
+
+    <label>Содержимое:
+      <select id="contentSelect">
+        <option value="Привет, мир!">Привет, мир!</option>
+        <option value="Это модальное окно">Это модальное окно</option>
+        <option value="Контент №3">Контент №3</option>
+        <option value="Еще текст">Еще текст</option>
+        <option value="Финальное сообщение">Финальное сообщение</option>
+      </select>
+    </label>
+
+    <label>Координаты:
+      <select id="positionSelect">
+        <option value="10,10">10,10</option>
+        <option value="50,50">50,50</option>
+        <option value="100,100">100,100</option>
+        <option value="150,150">150,150</option>
+        <option value="200,200">200,200</option>
+      </select>
+    </label>
+
+    <button id="createBtn1">Создать окно 1</button>
+    <button id="createBtn2">Создать окно 2</button>
+    <button id="createBtn3">Создать окно 3</button>
+  </div>
+
+<script>
+    const sizeSelect = document.getElementById("sizeSelect");
+    const contentSelect = document.getElementById("contentSelect");
+    const positionSelect = document.getElementById("positionSelect");
+  
+    const modalData = new Map(); // Храним параметры окон
+    const uniqueContents = new Set(); // Храним уникальные тексты
+  
+    const modalControllers = {}; //функции замыкания по id окна
+  
+    //функция заыкания
+    function createModalController(id) {
+      let modalElement = null;
+      let content = "";
+      let top = 0;
+      let left = 0;
+      let width = 0;
+      let height = 0;
+  
+      return function updateModal() {
+        if (modalElement) {
+          [top, left] = positionSelect.value.split(",").map(Number);
+          content = contentSelect.value;
+  
+          modalElement.style.top = `${top}px`;
+          modalElement.style.left = `${left}px`;
+          modalElement.innerHTML = `<strong>Окно ${id}</strong><br>${content}<br><em>(нажмите, чтобы закрыть)</em>`;
+  
+          modalData.set(id, { width, height, top, left, content });
+          uniqueContents.add(content);
+          return;
+        }
+
+        [width, height] = sizeSelect.value.split("x").map(Number);
+        [top, left] = positionSelect.value.split(",").map(Number);
+        content = contentSelect.value;
+  
+        modalElement = document.createElement("div");
+        modalElement.classList.add("modal");
+        modalElement.style.width = `${width}px`;
+        modalElement.style.height = `${height}px`;
+        modalElement.style.top = `${top}px`;
+        modalElement.style.left = `${left}px`;
+        modalElement.innerHTML = `<strong>Окно ${id}</strong><br>${content}<br><em>(нажмите, чтобы закрыть)</em>`;
+  
+        modalElement.addEventListener("click", () => {
+          modalElement.remove();
+          modalElement = null;
+          modalData.delete(id);
+        });
+  
+        document.body.appendChild(modalElement);
+        modalData.set(id, { width, height, top, left, content });
+        uniqueContents.add(content);
+      };
+    }
+  
+    // Создаём замыкания при загрузке
+    modalControllers[1] = createModalController(1);
+    modalControllers[2] = createModalController(2);
+    modalControllers[3] = createModalController(3);
+  
+    // Назначаем обработчики кнопкам
+    document.getElementById("createBtn1").addEventListener("click", () => modalControllers[1]());
+    document.getElementById("createBtn2").addEventListener("click", () => modalControllers[2]());
+    document.getElementById("createBtn3").addEventListener("click", () => modalControllers[3]());
+</script>
+</body>
+</html>
+
+

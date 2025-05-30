@@ -1,0 +1,47 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  background: #f0f0f0;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+button {
+  padding: 8px 12px;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #005fa3;
+}
+
+.modal {
+  position: absolute;
+  background: white;
+  border: 2px solid #007acc;
+  padding: 10px;
+  border-radius: 8px;
+  animation: fadeIn 0.4s ease-in-out;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}

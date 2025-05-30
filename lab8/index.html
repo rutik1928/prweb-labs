@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #slider {
+      width: 400px;
+      height: 300px;
+      margin: 20px auto;
+      background-color: #f0f0f0;
+      border: 2px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #slider img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    #endMessage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      font-size: 48px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    input {
+      margin: 5px;
+    }
+
+    h2 {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Работа с коллекциями изображений</h2>
+
+  <label>Интервал (сек): <input type="number" id="intervalInput" value="2" min="1"></label><br>
+  <label>Количество картинок: <input type="number" id="countInput" value="5" min="1" max="10"></label><br>
+  
+  <button id="startBtn">Начать / Возобновить</button>
+  <button id="stopBtn">Остановить</button>
+
+  <div id="slider">
+    <img id="sliderImage" src="" alt="Рекламное изображение">
+  </div>
+
+  <div id="endMessage">Показ завершён</div>
+
+  <script>
+    // Коллекция изображений — массив с URL
+    const imageStorage = [
+      'https://calorizator.ru/sites/default/files/imagecache/recipes_full/recipe/32319.jpg',
+      'https://img.povar.ru/mobile/94/4c/a7/0e/goryachii_buterbrod_na_skovorode-67645.jpg',
+      'https://media.istockphoto.com/id/157431311/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%81%D1%8D%D0%BD%D0%B4%D0%B2%D0%B8%D1%87-%D1%81-%D0%B8%D0%BD%D0%B4%D0%B5%D0%B9%D0%BA%D0%BE%D0%B9.jpg?s=612x612&w=0&k=20&c=SDQNmQVG-YUc5zR3FM9OcOvnU5v0fZ-9MmusnQys_Bc=',
+      'https://img.iamcook.ru/old/upl/recipes/cat/u-51c3dda2c76c0e5e8b8c50bbbd5e6c23.jpg',
+      'https://media.ovkuse.ru/images/step_attachments/b569f9cd-9550-42d9-be8b-30ee1fe9f712/b569f9cd-9550-42d9-be8b-30ee1fe9f712.jpg',
+      'https://calorizator.ru/sites/default/files/imagecache/recipes_full/recipe/45964.jpg',
+      'https://cdn.vkuso.ru/uploads/prostoj-goryachij-buterbrod-s-syrom.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQapZsi0idpsdkMGrYhWJq7KZZl7dtqC_8C6Q&s',
+      'https://i.obozrevatel.com/food/recipemain/2019/2/24/apap.jpg?size=636x424',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxALGNVDEQMxSbnC0dY3vxw5JkFZ2-9PiPng&s'
+    ];
+
+    let intervalId = null;      // Идентификатор таймера setInterval
+    let currentIndex = 0;       // Индекс текущего изображения
+    let selectedImages = [];    // Подколлекция выбранных изображений
+
+    const sliderImage = document.getElementById('sliderImage');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const intervalInput = document.getElementById('intervalInput');
+    const countInput = document.getElementById('countInput');
+    const endMessage = document.getElementById('endMessage');
+
+    function startSlider() {
+      const n = parseInt(intervalInput.value) || 1;
+      const count = parseInt(countInput.value) || 1;
+
+      if (count > imageStorage.length) {
+        alert(`В хранилище только ${imageStorage.length} изображений`);
+        return;
+      }
+
+      // Работа с коллекцией: выбираем первые "count" элементов
+      if (currentIndex === 0 || currentIndex >= selectedImages.length) {
+        selectedImages = imageStorage.slice(0, count);
+        currentIndex = 0;
+        endMessage.style.display = 'none';
+      }
+
+      // Отменяем предыдущий интервал, если есть
+      if (intervalId) clearInterval(intervalId);
+
+      // Запуск показа слайдов с использованием setInterval
+      intervalId = setInterval(() => {
+        if (currentIndex < selectedImages.length) {
+          // Плановое отображение следующего изображения
+          sliderImage.src = selectedImages[currentIndex];
+          currentIndex++;
+        } else {
+          // Все изображения показаны — остановка интервала
+          clearInterval(intervalId);
+          intervalId = null;
+          sliderImage.src = '';
+          endMessage.style.display = 'flex';
+        }
+      }, n * 1000);
+    }
+
+    function stopSlider() {
+      // Остановка показа — очистка интервала
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    // Назначение обработчиков событий
+    startBtn.addEventListener('click', startSlider);
+    stopBtn.addEventListener('click', stopSlider);
+    // Позволяем пользователю закрыть сообщение по клику
+    endMessage.addEventListener('click', () => {    
+        endMessage.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
